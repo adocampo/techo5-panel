@@ -42,9 +42,14 @@
         android:label="TECHO5 Panel"
         android:extractNativeLibs="true"
         android:allowBackup="false"
-        android:usesCleartextTraffic="false">
-        <!-- Never debuggable here: tools/build-apk.sh makes a DEBUG=1 build debuggable (aapt2's
-             debug mode), and only that build. The app's own traffic is its update check, over https. -->
+        android:usesCleartextTraffic="true">
+        <!-- Cleartext is on for one thing: the videos. They arrive as plain http from LAN media
+             servers (Video Assistant's transcode proxy is http://<lan-ip>:8099), and Android would
+             otherwise refuse the media framework's connection before it leaves the device — the
+             player just sits retrying for thirty seconds and dies. The app's own traffic stays
+             https: this only opens what VideoActivity plays.
+             Never debuggable here: tools/build-apk.sh makes a DEBUG=1 build debuggable (aapt2's
+             debug mode), and only that build. -->
 
         <activity
             android:name=".MainActivity"
