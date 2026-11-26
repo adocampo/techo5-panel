@@ -43,7 +43,7 @@ ABIS="arm64-v8a armeabi-v7a"
 API=26
 # The Go and the NDK echod is built with: techo5's .github/workflows/build.yml (the panel job) names
 # the same two. Move them together.
-GO_VERSION=1.26.8
+GO_VERSION=1.27.3
 NDK_VERSION=28.2.13676358
 # The wake word models the APK carries, each as <name>.tflite and <name>.json: the Echos' own set
 # (techo5's tools/fetch-inputs.py), and nothing else that happens to be in the folder.

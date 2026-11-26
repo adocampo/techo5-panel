@@ -190,7 +190,7 @@ Contrato que VA espera del firmware (ya cumplido por el Show, el fork debe cumpl
 
 - [ ] **F0 — baseline**: forkear techo5 → `adocampo/techo5`; clonar ambos lado a lado;
       `tools/build-apk.sh` compila e instala en el Portal sin cambios. (Revisa prereqs de
-      `docs/building.md`: NDK 28.2.13676358 exacto, Go 1.26.8, SDK 34, modelos con
+      `docs/building.md`: NDK 28.2.13676358 exacto, Go 1.27.3, SDK 34, modelos con
       `tools/fetch-inputs.py`.)
 - [ ] **F1 — daemon**: `panel.go` del paquete video + build tags + `Here=true` + sensores.
       Criterio: `esphome.techo5_panel_540a85_play_video` aparece en HA y `video_state` existe;

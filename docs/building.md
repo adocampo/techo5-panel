@@ -12,7 +12,7 @@ and signs it.
 - **Android NDK 28.2.13676358** exactly, for its clang: `echod` is a Go program with cgo, built for
   Android.
 - **JDK** 17 or later: `javac`, `jar` and `keytool`.
-- **Go 1.21 or later** on the PATH. The build uses Go 1.26.8 exactly: it sets `GOTOOLCHAIN=go1.26.8`,
+- **Go 1.21 or later** on the PATH. The build uses Go 1.27.3 exactly: it sets `GOTOOLCHAIN=go1.27.3`,
   and the go command downloads that toolchain the first time.
 - **A POSIX shell**: any on Linux or macOS. On Windows, Git Bash (from Git for Windows).
 - **git**, and **Python 3** for fetching the wake word models.
