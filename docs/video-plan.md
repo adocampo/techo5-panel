@@ -197,9 +197,14 @@ Contrato que VA espera del firmware (ya cumplido por el Show, el fork debe cumpl
       en los builds locales), y `fetch-inputs.py` para los modelos. El APK oficial se ha desinstalado
       (firmas distintas). El dispositivo renombrado a **«Panel»** en HA: las entidades y servicios
       saldrán como `panel_*` / `esphome.panel_*`, no `techo5_panel_540a85_*`.
-- [ ] **F1 — daemon**: `panel.go` del paquete video + build tags + `Here=true` + sensores.
-      Criterio: `esphome.panel_play_video` aparece en HA y `video_state` existe;
-      llamarla con una URL de VA de prueba no petar el daemon (aunque la app aún no haga nada).
+- [x] **F1 — daemon** (2026-11-26, techo5 `da870b8`): `panel.go` del paquete video (Feature fino
+      que espeja lo que la app reproduce: mismos switches, sensores y acciones que el Show; `Play`
+      manda `video play <url> <title>` por `techo5.ctl` y un watchdog de 15 s marca el fallo si la
+      app no responde), `panel_camera.go` (stubs sin ffmpeg, `CanRTSP` a false), `Here=true`,
+      `Installed()→true`, pipeline ffmpeg fuera del build panel (`!dot && !panel`), acciones
+      extraídas a `actions.go` compartida. DLNA auto-permite en el panel (sin pantalla de pregunta).
+      Probado en vivo: `esphome.panel_play_video` en HA, URL real de VA aceptada, y a los 15 s
+      `video_error` = «the app did not answer» sin petar el daemon. ✔
 - [ ] **F2 — app**: `VideoActivity` MediaPlayer + líneas ctl. Criterio: `esphome..._play_video`
       con `http://192.168.1.10:8099/files/8/...?stream=va&fmt=ts` → imagen+sonido en el Portal;
       stop/pause/resume funcionan; `video_state` sigue la verdad.
