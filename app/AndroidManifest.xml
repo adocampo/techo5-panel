@@ -25,6 +25,9 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <!-- Android 12 and later install this app's own updates without asking, with this. -->
     <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
+    <!-- Granted by appops, never drawn with: it is what lets a video arrive on screen when the app is
+         not the one showing (Android's background activity start). See docs/install.md. -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <!-- Android 11 and later show an app only the apps it says it looks for: the launcher's, for the
          Apps row on echod's settings screen (ControlLink.sendApps). -->

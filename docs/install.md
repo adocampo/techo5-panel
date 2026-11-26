@@ -27,10 +27,11 @@ These steps are the same everywhere. The sections below say where each device di
    adb install techo5-panel-<version>.apk
    ```
 
-2. Let it install its own updates:
+2. Let it install its own updates, and let a video arrive on screen while another app is showing:
 
    ```
    adb shell appops set app.techo5.panel REQUEST_INSTALL_PACKAGES allow
+   adb shell appops set app.techo5.panel SYSTEM_ALERT_WINDOW allow
    ```
 
 3. Open **TECHO5 Panel** and tap **Allow** for the microphone. Without it there is no wake word.
