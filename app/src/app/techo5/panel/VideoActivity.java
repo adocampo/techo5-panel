@@ -181,12 +181,25 @@ public class VideoActivity extends Activity {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 ended = true;
-                ControlLink.tell("video error " + id + " MediaPlayer error " + what + "/" + extra);
+                ControlLink.tell("video error " + id + " " + why(what, extra));
                 finish();
                 return true;
             }
         });
         video.setVideoURI(Uri.parse(url));
+    }
+
+    /** MediaPlayer's codes in words a person can read, and Video Assistant's auto-heal acts on. */
+    private static String why(int what, int extra) {
+        switch (extra) {
+            case -2147483648: return "Android cannot decode it (what " + what + ")";
+            case -1010: return "the stream took too long";
+            case -1008: return "the stream is not supported";
+            case -1007: return "the stream is malformed";
+            case -1005: return "the stream could not be validated";
+            case -1004: return "the stream could not be read";
+            default: return "MediaPlayer error " + what + "/" + extra;
+        }
     }
 
     private void pause() {
