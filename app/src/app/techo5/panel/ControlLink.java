@@ -48,6 +48,11 @@ import java.util.List;
  * The tablet's other apps: "apps begin", an "apps item <package> <label>" for each app the launcher
  * would show, and "apps end" go to echod on every connection and whenever "apps list" asks, for its
  * Apps row; "apps open <package>" from that row opens one (openApp).
+ *
+ * Videos: "video play <id> <url> <title>" opens VideoActivity, "video pause", "video resume" and
+ * "video stop" steer it; it answers "video state <id> <phase>", "video pos <id> <pos> <dur>",
+ * "video ended <id>" and "video error <id> <text>", and repeats the state of whatever it is showing
+ * on every connection, which is how echod learns the truth after either side restarts.
  */
 final class ControlLink {
     private static final String TAG = "techo5-panel";
@@ -122,6 +127,7 @@ final class ControlLink {
                 send(Updater.report(ctx));
                 send("android settings can");
                 sendApps();
+                VideoActivity.resync();
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
                 for (String line; (line = in.readLine()) != null; ) handle(line.trim().split("\\s+"));
             } catch (IOException e) {
@@ -153,6 +159,14 @@ final class ControlLink {
         }
         if (w.length >= 3 && w[0].equals("apps") && w[1].equals("open")) {
             openApp(w[2]);
+            return;
+        }
+        if (w.length >= 4 && w[0].equals("video") && w[1].equals("play")) {
+            VideoActivity.open(ctx, w);
+            return;
+        }
+        if (w.length == 2 && w[0].equals("video")) {
+            VideoActivity.command(w[1]);
             return;
         }
         if (w.length >= 2 && w[0].equals("update") && (w[1].equals("check") || w[1].equals("install"))) {
