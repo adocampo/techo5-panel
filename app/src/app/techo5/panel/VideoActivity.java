@@ -137,8 +137,13 @@ public class VideoActivity extends Activity {
         ((FrameLayout) bar).addView(stop, at);
         bar.setVisibility(View.GONE);
         FrameLayout root = new FrameLayout(this);
-        root.addView(video, new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        FrameLayout.LayoutParams vlp = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        // VideoView shrinks itself to the video's aspect ratio; a FrameLayout would park that box
+        // top-left, leaving all the black in one band at the bottom. Center it so a letterbox is
+        // even, top and bottom, like every other player.
+        vlp.gravity = Gravity.CENTER;
+        root.addView(video, vlp);
         root.addView(bar, new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         root.setOnClickListener(new View.OnClickListener() {
