@@ -171,7 +171,8 @@ a (kind `techo5`, mismo patrón que player 1):
  "volume_entity": "media_player.techo5_panel_540a85_2"}
 ```
 
-(ajustar nombres reales de entity tras el primer arranque con el fork). Con eso VA aplica tal
+(ajustar nombres reales de entity tras el primer arranque con el fork — el dispositivo está
+renombrado a «Panel», así que se espera `esphome.panel_play_video`, `sensor.panel_video_state`…) Con eso VA aplica tal
 cual todo lo que ya tiene: decisión de directo con contenedor (perfil techo5: mp4/mov/m4v/mkv/ts),
 normalización garantizada h264+AAC+TS, auto-remedio (`va/autoheal.py` usa `error_sensor` fresco),
 minas aprendidas, seguimiento de posición y scrobble (`state_sensor`).
@@ -188,12 +189,16 @@ Contrato que VA espera del firmware (ya cumplido por el Show, el fork debe cumpl
 
 ## 9. Fases
 
-- [ ] **F0 — baseline**: forkear techo5 → `adocampo/techo5`; clonar ambos lado a lado;
-      `tools/build-apk.sh` compila e instala en el Portal sin cambios. (Revisa prereqs de
-      `docs/building.md`: NDK 28.2.13676358 exacto, Go 1.27.3, SDK 34, modelos con
-      `tools/fetch-inputs.py`.)
+- [x] **F0 — baseline** (2026-11-26): forkeado techo5 → `adocampo/techo5` (el clon local aún
+      apuntaba a upstream: ahora `origin`=fork, `upstream`=madre, `main` sincronizado a `b184a51`);
+      `tools/build-apk.sh` compila e instala en el Portal. Lo que ha hecho falta fuera del plan:
+      subir el pin de Go a 1.27.3 (el `go.mod` nuevo de echod exige ≥1.27; commit `7522da6` — upstream
+      también lo necesita), clave de firma nueva (`~/.config/techo5-panel/`, con `PANEL_UPDATE_URL=none`
+      en los builds locales), y `fetch-inputs.py` para los modelos. El APK oficial se ha desinstalado
+      (firmas distintas). El dispositivo renombrado a **«Panel»** en HA: las entidades y servicios
+      saldrán como `panel_*` / `esphome.panel_*`, no `techo5_panel_540a85_*`.
 - [ ] **F1 — daemon**: `panel.go` del paquete video + build tags + `Here=true` + sensores.
-      Criterio: `esphome.techo5_panel_540a85_play_video` aparece en HA y `video_state` existe;
+      Criterio: `esphome.panel_play_video` aparece en HA y `video_state` existe;
       llamarla con una URL de VA de prueba no petar el daemon (aunque la app aún no haga nada).
 - [ ] **F2 — app**: `VideoActivity` MediaPlayer + líneas ctl. Criterio: `esphome..._play_video`
       con `http://192.168.1.10:8099/files/8/...?stream=va&fmt=ts` → imagen+sonido en el Portal;
